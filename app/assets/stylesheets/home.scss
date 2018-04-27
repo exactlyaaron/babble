@@ -191,16 +191,46 @@ table {
   }
 }
 
+.main-articles__list {
+  padding: 10px 0 25px 0;
+}
+
 .article__wrapper {
   background: #fff;
   color: #555;
+  border-radius: 4px;
+  font-size: 14px;
+  overflow: hidden;
+  box-shadow: 0px 2px 2px #ccc;
+  margin: 10px 0;
+  transition: all 0.3s ease;
+
+  .article-title {
+    padding: 12px;
+  }
+
+  &.closed {
+    .article__contents__wrapper {
+      display: none;
+    }
+  }
+
+
   &.mini {
     height: 30px;
     font-size: 11px;
     border-bottom: 1px solid #ddd;
+    border-radius: 0;
+    box-shadow: none;
+    margin: 0;
 
     &:hover {
+      background: #eee;
       cursor: pointer;
+
+      .button__copy {
+        background-color: darken($orange, 9%);
+      }
     }
 
     .article-title {
@@ -209,11 +239,40 @@ table {
   }
 }
 
+.article__controls {
+  .opened & {
+    border-bottom: 1px solid #ccc;
+  }
+}
+
+.article__contents__wrapper {
+  padding: 20px;
+  line-height: 20px;
+  font-size: 14px;
+}
+
+.article__content {
+  position: relative;
+
+  .button__copy {
+    position: absolute;
+    left: 0;
+    top: 5px;
+    width: 30px;
+    height: 30px;
+  }
+}
+
+.article-content__text {
+  padding: 0 10px 0 40px;
+}
+
 .article-title {
   display: block;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+  font-weight: 600;
 }
 
 .button__copy {
@@ -224,9 +283,12 @@ table {
   background-position: center;
   background-repeat: no-repeat;
   padding: 5px;
+  height: 40px;
+  width: 40px;
+  background-size: 15px;
 
   &:hover {
-    background-color: darken($orange, 9%);
+    background-color: darken($orange, 10%);
     cursor: pointer;
   }
 
@@ -244,6 +306,27 @@ table {
   border-left: 1px solid #ddd;
   background-position: center;
   background-repeat: no-repeat;
+  background-size: 15px;
+  width: 40px;
+  height: 40px;
+  transition: all 0.2s ease;
+
+  &:hover {
+    cursor: pointer;
+    background-color: #ededed;
+    background-size: 18px;
+  }
+
+  .closed & {
+    background-image: url(icon_caret.svg);
+  }
+
+  .opened & {
+    background-image: url(icon_caret.svg);
+    transform: rotate(180deg);
+    border-left: 0px solid #ddd;
+    border-right: 1px solid #ddd;
+  }
 
   &.expand {
     background-image: url(icon_expand.svg);
@@ -257,6 +340,7 @@ table {
     background-size: 13px;
     width: 30px;
     height: 30px;
+    transition: none;
 
     &:hover {
       background-size: 16px;
@@ -281,5 +365,27 @@ table {
 
   &.active {
     border-bottom: 4px solid $orange;
+  }
+}
+
+.main-articles__wrapper {
+  background: $light-gray;
+  padding: 20px;
+}
+
+.main-articles__controls {
+  text-align: right;
+}
+
+.main-articles__control {
+  display: inline-block;
+  color: #888;
+  font-size: 12px;
+  margin-left: 15px;
+
+  &:hover {
+    cursor: pointer;
+    color: #222;
+    text-decoration: underline;
   }
 }
