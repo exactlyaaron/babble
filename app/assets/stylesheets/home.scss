@@ -1,3 +1,285 @@
 // Place all the styles related to the home controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+$blue: #1b75bc;
+$orange: #fbb040;
+$light-gray: #f1f2f2;
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+  font-family: 'Roboto', sans-serif;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700');
+
+.clearfix {
+  &:after {
+    display: block;
+    content: '';
+    clear: both;
+  }
+}
+
+.top-area__wrapper {
+  background: $blue;
+  color: white;
+  padding: 25px 25px 0 25px;
+}
+
+.logo {
+  background-image: url(babble-logo.svg);
+  background-size: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  width: 100px;
+  height: 25px;
+}
+
+.search__wrapper {
+  margin: 30px 0;
+}
+
+.search__wrapper input {
+  border: 0px solid transparent;
+  border-radius: 3px;
+  width: 100%;
+  padding: 15px;
+  color: #555;
+  background-image: url(icon_search.svg);
+  background-size: 18px;
+  background-repeat: no-repeat;
+  background-position: calc(100% - 15px) center;
+
+  &:focus {
+    outline: 2px solid $orange;
+  }
+}
+
+.popular-tags__label, .top-articles__label {
+  font-size: 12px;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.popular-tags__wrapper {
+  display: block;
+  margin-bottom: 30px;
+  @extend .clearfix;
+}
+
+.popular-tags__tag {
+  float:left;
+	height:24px;
+	line-height:24px;
+	position:relative;
+	font-size:11px;
+  margin-bottom: 5px;
+
+  margin-left:20px;
+	padding:0 10px 0 12px;
+	background:$orange;
+	color:#fff;
+	text-decoration:none;
+	-moz-border-radius-bottomright:4px;
+	-webkit-border-bottom-right-radius:4px;
+	border-bottom-right-radius:4px;
+	-moz-border-radius-topright:4px;
+	-webkit-border-top-right-radius:4px;
+	border-top-right-radius:4px;
+
+  &:hover {
+    cursor: pointer;
+    background: darken($orange, 10%);
+
+    &:before {
+      border-color:transparent darken($orange, 10%) transparent transparent;
+    }
+  }
+
+  &:before {
+    content:"";
+  	float:left;
+  	position:absolute;
+  	top:0;
+  	left:-12px;
+  	width:0;
+  	height:0;
+  	border-color:transparent $orange transparent transparent;
+  	border-style:solid;
+  	border-width:12px 12px 12px 0;
+  }
+
+  span:before {
+    content: '';
+    display: block;
+    float: left;
+    position: absolute;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: #fff;
+    left: 0px;
+    top: 10px;
+  }
+}
+
+.top-articles__wrapper {
+  @extend .clearfix;
+  margin-bottom: 20px;
+  display: flex;
+
+  @media screen and (max-width: 400px) {
+    flex-direction: column;
+  }
+}
+
+.top-articles {
+  width: 50%;
+  flex: 1;
+
+  @media screen and (max-width: 400px) {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+
+  &:first-of-type {
+    margin-right: 20px;
+  }
+}
+
+.article__wrapper {
+  background: #fff;
+  color: #555;
+  &.mini {
+    height: 30px;
+    font-size: 11px;
+    border-bottom: 1px solid #ddd;
+
+    &:hover {
+      cursor: pointer;
+    }
+
+    .article-title {
+      padding: 8px 8px 8px 0;
+    }
+  }
+}
+
+.article-title {
+  display: block;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.button__copy {
+  display: block;
+  float: left;
+  background-color: $orange;
+  background-image: url(icon_copy.svg);
+  background-position: center;
+  background-repeat: no-repeat;
+  padding: 5px;
+
+  &:hover {
+    background-color: darken($orange, 9%);
+    cursor: pointer;
+  }
+
+  .mini & {
+    background-size: 13px;
+    height: 30px;
+    width: 30px;
+    margin-right: 10px;
+  }
+}
+
+.button__toggle-view {
+  display: block;
+  float: right;
+  border-left: 1px solid #ddd;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  &.expand {
+    background-image: url(icon_expand.svg);
+  }
+
+  &.collapse {
+    background-image: url(icon_collapse.svg);
+  }
+
+  .mini & {
+    background-size: 13px;
+    width: 30px;
+    height: 30px;
+
+    &:hover {
+      background-size: 16px;
+    }
+  }
+}
+
+.main-tabs__wrapper {
+  text-align: center;
+}
+
+.main-tab {
+  display: inline-block;
+  padding: 15px 20px;
+  font-size: 14px;
+  border-bottom: 4px solid $blue;
+
+  &:hover {
+    cursor: pointer;
+    border-bottom: 4px solid $orange;
+  }
+
+  &.active {
+    border-bottom: 4px solid $orange;
+  }
+}

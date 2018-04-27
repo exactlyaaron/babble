@@ -9,7 +9,7 @@ import Home from '../components/home'
 
 document.addEventListener('DOMContentLoaded', () => {
   ReactDOM.render(
-    <Home name="Aaron3" />,
+    <Home name="BABBLE" />,
     document.body.appendChild(document.createElement('div')),
   )
 })
