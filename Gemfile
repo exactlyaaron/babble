@@ -20,6 +20,7 @@ gem 'google-api-client'
 gem 'googleauth'
 gem 'redis'
 
+gem 'devise'
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'mini_racer', platforms: :ruby
 

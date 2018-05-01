@@ -143,6 +143,9 @@ class Home extends React.Component {
         <div className="top-area__wrapper">
           <div className="header__wrapper">
             <div className="logo"></div>
+            <div className="header__controls">
+              <a data-method="delete" href="/users/sign_out" rel="nofollow">SIGN OUT</a>
+            </div>
           </div>
           <div className="search__wrapper">
             <input type="text" placeholder="What do you want" />

@@ -64,6 +64,18 @@ table {
   }
 }
 
+.header__controls {
+	position: absolute;
+  right: 25px;
+  top: 25px;
+
+	a {
+		text-decoration: none;
+		color: #fff;
+		font-size: 11px;
+	}
+}
+
 .top-area__wrapper {
   background: $blue;
   color: white;
