@@ -2,14 +2,20 @@
 // like app/views/layouts/application.html.erb. All it does is render <div>Hello React</div> at the bottom
 // of the page.
 
-import React from 'react'
-import ReactDOM from 'react-dom'
-import PropTypes from 'prop-types'
-import Home from '../components/home'
+// import React from 'react'
+// import ReactDOM from 'react-dom'
+// import PropTypes from 'prop-types'
+// import Home from '../components/home'
+//
+// document.addEventListener('DOMContentLoaded', () => {
+//   ReactDOM.render(
+//     <Home />,
+//     document.body.appendChild(document.createElement('div')),
+//   )
+// })
 
-document.addEventListener('DOMContentLoaded', () => {
-  ReactDOM.render(
-    <Home name="BABBLE" />,
-    document.body.appendChild(document.createElement('div')),
-  )
-})
+
+import Home from 'components/home';
+import WebpackerReact from 'webpacker-react';
+
+WebpackerReact.setup({Home});

@@ -1,0 +1,44 @@
+# ==========================================================================================
+# COMMENT TO SEE TAB SECTION EASILY
+# ==========================================================================================
+articles:
+  - title: Adult Content
+    contents:
+      - Sign into sprint.com > click the my sprint tab > click profile and security > Under limits and permissions select block adult content. Then select your device to remove the block.
+    tags:
+      - adult content
+      - security
+      - privacy
+
+  - title: Repair Cost
+    contents:
+      - We won't know about costs until we can take a look at your phone in person and know what's going on with it. Much like your mechanic wouldn't know what parts need to be replaced on your car before you take it in. Our technicians will be able to provide a cost if there is one.
+    tags:
+      - repair cost
+      - technician
+      - warranty
+
+  - title: Add Hotspot Data
+    contents:
+      - >
+          You can add hotspot data from your sprint.com account or by contacting customer service. Would you like directions on how to add data from sprint.com?
+
+          1. Sign into your account at sprint.com.
+          2. Click the My Sprint tab and select usage
+          3. Under you line go to data and click on “show details”
+          4. Under mobile hotspot select “buy more”
+      - Tech Expert is a device troubleshooting and education service. We don't have access to your Sprint account. If you'd like someone to add it for you, you can contact Sprint customer service. You can call customer service at 1-888-211-4727 (use menu options 5 - 4 - 5 - 0) or use their chat service online at sprint.com/chat
+    tags:
+      - hotspot
+      - service
+      - data
+
+  - title: Block a Number
+    content:
+      - You can block a phone number from your sprint.com account or by contacting customer service. Would you like directions on how to block a phone number from sprint.com?
+      - You can block the number from calling  by going to sprint.com > sign into your account > My Sprint tab > Preferences > block number
+      - You can block the number from texting  by going to sprint.com > sign into your account > My Sprint tab > Preferences > block texts
+    tags:
+      - block number
+      - account
+      - sprint
