@@ -7,7 +7,9 @@ class Article extends React.Component {
     this.state = {
         display: this.props.defaultDisplay || 'closed',
         value: 'i am a test',
-        copied: false
+        copied: false,
+        expanded: this.props.expanded || false,
+        displayModal: false
     }
   }
 
@@ -23,16 +25,38 @@ class Article extends React.Component {
     console.log(`Clicked on "${innerHTML}"!`); // eslint-disable-line
   };
 
-  render() {
+  toggleModal = (e) => {
+    this.setState({expanded: !this.state.expanded})
+    this.props.toggleModal(e, this.props.article)
+  }
+
+  toggleModal = (e) => {
+    e.preventDefault();
+    this.setState({expanded: !this.state.expanded, displayModal: !this.state.displayModal})
+  }
+
+  renderArticleModal = () => {
+    if(this.state.displayModal){
+      return (
+        <div className="article-modal__wrapper" onClick={this.toggleModal}>
+          <div className="article-modal__close" onClick={this.toggleModal}></div>
+            {this.renderArticleContent('opened')}
+        </div>
+      )
+    }
+    return (null)
+  }
+
+  renderArticleContent = (displayOverride=undefined) => {
     return (
-      <div className={"article__wrapper "+this.state.display}>
+      <div className={"article__wrapper "+(displayOverride ? displayOverride : this.state.display)} onClick={this.articleClick}>
         <div className="article__controls">
           <CopyToClipboard
             onCopy={this.onCopy}
             text={this.props.article.contents && this.props.article.contents[0]}>
             <div onClick={this.onClick} className="button__copy"></div>
           </CopyToClipboard>
-          <div className="button__toggle-view collapse" onClick={(e) => this.props.toggleModal(e, this.props.article)}></div>
+          <div className={"button__toggle-view "+(this.state.expanded ? "collapse":"expand")} onClick={(e) =>{this.toggleModal(e)}}></div>
           <div className="button__toggle-view open" onClick={this.toggleArticle}></div>
           <span className="article-title">{this.props.article.title}</span>
         </div>
@@ -59,6 +83,19 @@ class Article extends React.Component {
             })}
           </div>
         </div>
+      </div>
+    )
+  }
+
+  articleClick = (e) => {
+    e.stopPropagation();
+  }
+
+  render() {
+    return (
+      <div>
+        {this.renderArticleContent()}
+        {this.renderArticleModal()}
       </div>
     )
   }

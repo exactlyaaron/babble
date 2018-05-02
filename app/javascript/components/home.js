@@ -6,8 +6,8 @@ class Home extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-        displayModal: false,
-        modalArticle: undefined
+        // displayModal: false,
+        // modalArticle: undefined
     }
   }
 
@@ -69,44 +69,39 @@ class Home extends React.Component {
     )
   }
 
-  articleClick = (e) => {
-    console.log('child click')
-    e.stopPropagation();
-  }
+  // renderArticleModal = () => {
+  //   if(this.state.displayModal && this.state.modalArticle){
+  //     let article = this.state.modalArticle;
+  //     return (
+  //       <div className="article-modal__wrapper" onClick={this.toggleModal}>
+  //         <div className="article-modal__close" onClick={this.toggleModal}></div>
+  //           <Article
+  //             article={article}
+  //             toggleModal={this.toggleModal}
+  //             defaultDisplay={'opened'}
+  //             expanded={true}
+  //           />
+  //       </div>
+  //     )
+  //   }
+  //   return (null)
+  // }
 
-  renderArticleModal = () => {
-    if(this.state.displayModal && this.state.modalArticle){
-      let article = this.state.modalArticle;
-      return (
-        <div className="article-modal__wrapper" onClick={this.toggleModal}>
-          <div className="article-modal__close" onClick={this.toggleModal}></div>
-            <Article
-              article={article}
-              toggleModal={this.toggleModal}
-              defaultDisplay={'opened'}
-            />
-        </div>
-      )
-    }
-    return (null)
-  }
-
-  toggleModal = (e, article) => {
-    // if(manual){
-    //   this.setState({displayModal: true})
-    // }
-    if(article){
-      this.setState({modalArticle: article})
-    }
-    e.preventDefault();
-    this.setState({displayModal: !this.state.displayModal})
-  }
+  // toggleModal = (e, article) => {
+  //   // if(manual){
+  //   //   this.setState({displayModal: true})
+  //   // }
+  //   if(article){
+  //     this.setState({modalArticle: article})
+  //   }
+  //   e.preventDefault();
+  //   this.setState({displayModal: !this.state.displayModal})
+  // }
 
 
   render() {
     return (
       <div>
-        {this.renderArticleModal()}
         <div className="top-area__wrapper">
           <div className="header__wrapper">
             <div className="logo"></div>
