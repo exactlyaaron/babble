@@ -3,14 +3,7 @@ import _ from 'lodash';
 import Article from './Article.js';
 
 class Home extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-        // displayModal: false,
-        // modalArticle: undefined
-    }
-  }
-
+  
   renderPopularTags = () => {
     return (
       <div className="populartags__wrapper">
@@ -68,36 +61,6 @@ class Home extends React.Component {
       })
     )
   }
-
-  // renderArticleModal = () => {
-  //   if(this.state.displayModal && this.state.modalArticle){
-  //     let article = this.state.modalArticle;
-  //     return (
-  //       <div className="article-modal__wrapper" onClick={this.toggleModal}>
-  //         <div className="article-modal__close" onClick={this.toggleModal}></div>
-  //           <Article
-  //             article={article}
-  //             toggleModal={this.toggleModal}
-  //             defaultDisplay={'opened'}
-  //             expanded={true}
-  //           />
-  //       </div>
-  //     )
-  //   }
-  //   return (null)
-  // }
-
-  // toggleModal = (e, article) => {
-  //   // if(manual){
-  //   //   this.setState({displayModal: true})
-  //   // }
-  //   if(article){
-  //     this.setState({modalArticle: article})
-  //   }
-  //   e.preventDefault();
-  //   this.setState({displayModal: !this.state.displayModal})
-  // }
-
 
   render() {
     return (
