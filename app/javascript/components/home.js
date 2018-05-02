@@ -1,11 +1,13 @@
 import React from 'react';
 import _ from 'lodash';
+import Article from './Article.js';
 
 class Home extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-        displayModal: false
+        displayModal: false,
+        modalArticle: undefined
     }
   }
 
@@ -53,43 +55,17 @@ class Home extends React.Component {
     }
   }
 
-  renderMainArticles = () => {
+  renderMainArticles = (articles) => {
     return (
-      <div className="main-articles__list">
-        <div className="article__wrapper closed">
-          <div className="article__controls">
-            <div className="button__copy"></div>
-            <div className="button__toggle-view expand"></div>
-            <div className="button__toggle-view open"></div>
-            <span className="article-title">i need internet</span>
-          </div>
-          <div className="article__contents__wrapper">
-            <div className="article__content">
-              <div className="button__copy"></div>
-              <div className="article-content__text">
-                I am text for an article about why internet is missing. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur tincidunt nibh a mi fringilla, id facilisis tellus lacinia. Curabitur bibendum leo a pharetra convallis. Praesent lobortis mi sit amet ex faucibus facilisis. Integer sed bibendum dolor. Praesent eget lorem scelerisque, porta sem in, rhoncus augue. Nulla faucibus mauris vel turpis tempor efficitur. Quisque molestie nisi aliquet justo semper tincidunt in ac nulla. Sed ullamcorper volutpat purus. In dolor turpis, tincidunt et ornare sit amet, cursus quis turpis. Aliquam ullamcorper varius nisi, in molestie augue. Nulla facilisis a elit vel varius. Quisque lacinia efficitur neque id ultricies. Praesent sed maximus tellus, eget semper enim.
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="article__wrapper opened">
-          <div className="article__controls">
-            <div className="button__copy"></div>
-            <div className="button__toggle-view expand" onClick={this.toggleModal}></div>
-            <div className="button__toggle-view open"></div>
-            <span className="article-title">i need internet</span>
-          </div>
-          <div className="article__contents__wrapper">
-            <div className="article__content">
-              <div className="button__copy"></div>
-              <div className="article-content__text">
-                I am text for an article about why internet is missing. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur tincidunt nibh a mi fringilla, id facilisis tellus lacinia. Curabitur bibendum leo a pharetra convallis. Praesent lobortis mi sit amet ex faucibus facilisis. Integer sed bibendum dolor. Praesent eget lorem scelerisque, porta sem in, rhoncus augue. Nulla faucibus mauris vel turpis tempor efficitur. Quisque molestie nisi aliquet justo semper tincidunt in ac nulla. Sed ullamcorper volutpat purus. In dolor turpis, tincidunt et ornare sit amet, cursus quis turpis. Aliquam ullamcorper varius nisi, in molestie augue. Nulla facilisis a elit vel varius. Quisque lacinia efficitur neque id ultricies. Praesent sed maximus tellus, eget semper enim.
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      articles.map((article, i) => {
+        return (
+          <Article
+            key={i}
+            article={article}
+            toggleModal={this.toggleModal}
+          />
+        )
+      })
     )
   }
 
@@ -99,39 +75,30 @@ class Home extends React.Component {
   }
 
   renderArticleModal = () => {
-    if(this.state.displayModal){
+    if(this.state.displayModal && this.state.modalArticle){
+      let article = this.state.modalArticle;
       return (
         <div className="article-modal__wrapper" onClick={this.toggleModal}>
           <div className="article-modal__close" onClick={this.toggleModal}></div>
-          <div className="article__wrapper" onClick={this.articleClick}>
-            <div className="article__controls">
-              <div className="button__copy"></div>
-              <div className="button__toggle-view collapse" onClick={this.toggleModal}></div>
-              <span className="article-title">i need internet</span>
-            </div>
-            <div className="article__contents__wrapper">
-              <div className="article__content">
-                <div className="button__copy"></div>
-                <div className="article-content__text">
-                  I am text for an article about why internet is missing. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur tincidunt nibh a mi fringilla, id facilisis tellus lacinia. Curabitur bibendum leo a pharetra convallis. Praesent lobortis mi sit amet ex faucibus facilisis. Integer sed bibendum dolor. Praesent eget lorem scelerisque, porta sem in, rhoncus augue. Nulla faucibus mauris vel turpis tempor efficitur. Quisque molestie nisi aliquet justo semper tincidunt in ac nulla. Sed ullamcorper volutpat purus. In dolor turpis, tincidunt et ornare sit amet, cursus quis turpis. Aliquam ullamcorper varius nisi, in molestie augue. Nulla facilisis a elit vel varius. Quisque lacinia efficitur neque id ultricies. Praesent sed maximus tellus, eget semper enim.
-                </div>
-              </div>
-              <div className="article__related">RELATED</div>
-              <div className="article__previous">PREVIOUS</div>
-            </div>
-          </div>
+            <Article
+              article={article}
+              toggleModal={this.toggleModal}
+              defaultDisplay={'opened'}
+            />
         </div>
       )
     }
     return (null)
   }
 
-  toggleModal = (e) => {
+  toggleModal = (e, article) => {
     // if(manual){
     //   this.setState({displayModal: true})
     // }
+    if(article){
+      this.setState({modalArticle: article})
+    }
     e.preventDefault();
-    console.log('parent')
     this.setState({displayModal: !this.state.displayModal})
   }
 
@@ -164,7 +131,7 @@ class Home extends React.Component {
             <span className="main-articles__control">Collapse All</span>
           </div>
 
-          {this.renderMainArticles()}
+          {this.renderMainArticles(this.props.data && this.props.data.articles)}
 
         </div>
         <p>Hello, I am {this.props.name}!</p>
