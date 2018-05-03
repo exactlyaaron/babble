@@ -13,6 +13,12 @@ class Article extends React.Component {
     }
   }
 
+  componentWillReceiveProps = (nextProps) => {
+    if( this.state.display != nextProps.allArticlesDisplay ){
+      this.setState({display: nextProps.allArticlesDisplay})
+    }
+  }
+
   toggleArticle = () => {
     this.setState({display: this.state.display == 'closed' ? 'opened' : 'closed'})
   }
@@ -40,16 +46,17 @@ class Article extends React.Component {
       return (
         <div className="article-modal__wrapper" onClick={this.toggleModal}>
           <div className="article-modal__close" onClick={this.toggleModal}></div>
-            {this.renderArticleContent('opened')}
+            {this.renderArticleContent('opened', true)}
         </div>
       )
     }
     return (null)
   }
 
-  renderArticleContent = (displayOverride=undefined) => {
+  renderArticleContent = (displayOverride=undefined, modal=undefined) => {
+    let displayClass = displayOverride ? displayOverride : this.state.display;
     return (
-      <div className={"article__wrapper "+(displayOverride ? displayOverride : this.state.display)} onClick={this.articleClick}>
+      <div className={"article__wrapper "+(displayClass)} onClick={this.articleClick}>
         <div className="article__controls">
           <CopyToClipboard
             onCopy={this.onCopy}
@@ -57,7 +64,9 @@ class Article extends React.Component {
             <div onClick={this.onClick} className="button__copy"></div>
           </CopyToClipboard>
           <div className={"button__toggle-view "+(this.state.expanded ? "collapse":"expand")} onClick={(e) =>{this.toggleModal(e)}}></div>
-          <div className="button__toggle-view open" onClick={this.toggleArticle}></div>
+          {!modal &&
+            <div className="button__toggle-view open" onClick={this.toggleArticle}></div>
+          }
           <span className="article-title">{this.props.article.title}</span>
         </div>
         <div className="article__contents__wrapper">

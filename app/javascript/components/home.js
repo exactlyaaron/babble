@@ -3,7 +3,14 @@ import _ from 'lodash';
 import Article from './Article.js';
 
 class Home extends React.Component {
-  
+
+  constructor(props) {
+      super(props);
+      this.state = {
+        allArticlesDisplay: undefined
+      };
+   }
+
   renderPopularTags = () => {
     return (
       <div className="populartags__wrapper">
@@ -56,10 +63,19 @@ class Home extends React.Component {
             key={i}
             article={article}
             toggleModal={this.toggleModal}
+            allArticlesDisplay={this.state.allArticlesDisplay}
           />
         )
       })
     )
+  }
+
+  expandAllArticles = () => {
+    this.setState({allArticlesDisplay: 'opened'})
+  }
+
+  collapseAllArticles = () => {
+    this.setState({allArticlesDisplay: 'closed'})
   }
 
   render() {
@@ -85,8 +101,8 @@ class Home extends React.Component {
 
         <div className="main-articles__wrapper">
           <div className="main-articles__controls">
-            <span className="main-articles__control">Expand All</span>
-            <span className="main-articles__control">Collapse All</span>
+            <span className="main-articles__control" onClick={this.expandAllArticles}>Expand All</span>
+            <span className="main-articles__control" onClick={this.collapseAllArticles}>Collapse All</span>
           </div>
 
           {this.renderMainArticles(this.props.data && this.props.data.articles)}
