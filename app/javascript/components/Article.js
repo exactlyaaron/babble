@@ -30,9 +30,9 @@ class Article extends React.Component {
     // set counter for popularity
 
     // set history for previously clicked articles
-    let previousArticleList = localStorage.getItem('previousArticles') || []
+    let previousArticleList = JSON.parse(localStorage.getItem('previousArticles')) || []
     if(previousArticleList.length > 0){
-      if(previousArticleList[previousArticleList.length].title != this.props.article){
+      if(previousArticleList[previousArticleList.length - 1].title != this.props.article){
         previousArticleList.push(this.props.article);
         if (previousArticleList.length > 10) {
           this.shift();
@@ -41,7 +41,7 @@ class Article extends React.Component {
     } else {
       previousArticleList.push(this.props.article);
     }
-    localStorage.setItem('previousArticles', previousArticleList)
+    localStorage.setItem('previousArticles', JSON.stringify(previousArticleList))
   };
 
   toggleModal = (e) => {
@@ -64,6 +64,19 @@ class Article extends React.Component {
       )
     }
     return (null)
+  }
+
+  renderPreviousArticles = () => {
+    let previousArticleList = localStorage.getItem('previousArticles') || '[]'
+    return JSON.parse(previousArticleList).map((article, i)=>{
+      return (
+        <MiniArticle
+          key={i}
+          article={article}
+          customClass={i == 0 ? 'first' : ''}
+        />
+      )
+    })
   }
 
   renderArticleContent = (displayOverride=undefined, modal=undefined) => {
@@ -116,7 +129,7 @@ class Article extends React.Component {
             </div>
             <div className="article__minilist__wrapper">
               <div className="article__minilist__title">Previous Articles:</div>
-              <MiniArticle key={1} article={this.props.article} customClass="first"/>
+              {this.renderPreviousArticles()}
             </div>
           </div>
         </div>

@@ -473,6 +473,10 @@ table {
 .article__related-and-previous__wrapper {
 	border-top: 1px solid #ccc;
 	display: flex;
+
+	@media(max-width: 450px){
+		flex-direction: column;
+	}
 }
 
 .article__minilist__wrapper {
@@ -480,8 +484,17 @@ table {
 	width: 50%;
 	padding: 20px;
 
+	@media(max-width: 450px){
+		width: 100%;
+	}
+
 	&:first-of-type {
 		border-right: 1px solid #ccc;
+
+		@media(max-width: 450px){
+			border-right: 0px solid transparent;
+			border-bottom: 1px solid #ccc;
+		}
 	}
 
 	.article__wrapper.mini.first {
