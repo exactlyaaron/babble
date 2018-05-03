@@ -32,10 +32,10 @@ class Article extends React.Component {
     // set history for previously clicked articles
     let previousArticleList = JSON.parse(localStorage.getItem('previousArticles')) || []
     if(previousArticleList.length > 0){
-      if(previousArticleList[previousArticleList.length - 1].title != this.props.article){
+      if(!(_.find(previousArticleList, {title: this.props.article.title}))){
         previousArticleList.push(this.props.article);
         if (previousArticleList.length > 10) {
-          this.shift();
+          previousArticleList.shift();
         }
       }
     } else {
