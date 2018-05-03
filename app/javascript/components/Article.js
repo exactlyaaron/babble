@@ -1,5 +1,7 @@
 import React from 'react';
 import {CopyToClipboard} from 'react-copy-to-clipboard';
+import _ from 'lodash';
+import MiniArticle from './MiniArticle.js'
 
 class Article extends React.Component {
   constructor(props) {
@@ -25,10 +27,21 @@ class Article extends React.Component {
 
   onCopy = () => {
     this.setState({copied: true});
-  };
+    // set counter for popularity
 
-  conClick = ({target: {innerHTML}}) => {
-    console.log(`Clicked on "${innerHTML}"!`); // eslint-disable-line
+    // set history for previously clicked articles
+    let previousArticleList = localStorage.getItem('previousArticles') || []
+    if(previousArticleList.length > 0){
+      if(previousArticleList[previousArticleList.length].title != this.props.article){
+        previousArticleList.push(this.props.article);
+        if (previousArticleList.length > 10) {
+          this.shift();
+        }
+      }
+    } else {
+      previousArticleList.push(this.props.article);
+    }
+    localStorage.setItem('previousArticles', previousArticleList)
   };
 
   toggleModal = (e) => {
@@ -90,6 +103,21 @@ class Article extends React.Component {
                 <span className="tag" key={'tag-'+k}><span>{tag}</span></span>
               )
             })}
+          </div>
+          <div className="article__related-and-previous__wrapper">
+            <div className="article__minilist__wrapper">
+              <div className="article__minilist__title">Related Articles:</div>
+              <MiniArticle key={1} article={this.props.article} customClass="first"/>
+              <MiniArticle key={2} article={this.props.article}/>
+              <MiniArticle key={3} article={this.props.article}/>
+              <MiniArticle key={4} article={this.props.article}/>
+              <MiniArticle key={5} article={this.props.article}/>
+              <MiniArticle key={6} article={this.props.article}/>
+            </div>
+            <div className="article__minilist__wrapper">
+              <div className="article__minilist__title">Previous Articles:</div>
+              <MiniArticle key={1} article={this.props.article} customClass="first"/>
+            </div>
           </div>
         </div>
       </div>

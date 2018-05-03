@@ -43,11 +43,10 @@ class Home extends React.Component {
         <div>
           {articles.map((article, i) => {
             return (
-              <div className="article__wrapper mini" key={i}>
-                <div className="button__copy"></div>
-                <div className="button__toggle-view expand"></div>
-                <span className="article-title">{article.title}</span>
-              </div>
+              <MiniArticle
+                key={i}
+                article={article}
+              />
             )
           })}
         </div>

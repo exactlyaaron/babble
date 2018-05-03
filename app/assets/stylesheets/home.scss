@@ -245,6 +245,7 @@ table {
     height: 30px;
     font-size: 11px;
     border-bottom: 1px solid #ddd;
+		border-right: 1px solid #ddd;
     border-radius: 0;
     box-shadow: none;
     margin: 0;
@@ -467,4 +468,30 @@ table {
   &:hover {
     cursor: pointer;
   }
+}
+
+.article__related-and-previous__wrapper {
+	border-top: 1px solid #ccc;
+	display: flex;
+}
+
+.article__minilist__wrapper {
+	flex: 1;
+	width: 50%;
+	padding: 20px;
+
+	&:first-of-type {
+		border-right: 1px solid #ccc;
+	}
+
+	.article__wrapper.mini.first {
+		border-top: 1px solid #ddd;
+	}
+}
+
+.article__minilist__title {
+	font-size: 13px;
+	margin-bottom: 10px;
+	font-weight: 500;
+	color: #777;
 }
