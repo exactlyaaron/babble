@@ -16,7 +16,7 @@ class Article extends React.Component {
   }
 
   componentWillReceiveProps = (nextProps) => {
-    if( this.state.display != nextProps.allArticlesDisplay ){
+    if( nextProps.allArticlesDisplay && (this.state.display != nextProps.allArticlesDisplay) ){
       this.setState({display: nextProps.allArticlesDisplay})
     }
   }
@@ -28,20 +28,36 @@ class Article extends React.Component {
   onCopy = () => {
     this.setState({copied: true});
     // set counter for popularity
+    let popularArticleList = JSON.parse(localStorage.getItem('popularArticles')) || []
+
+    if(_.find(popularArticleList, {title: this.props.article.title})){
+      let existingArticle = _.find(popularArticleList, {title: this.props.article.title});
+      _.remove(popularArticleList, {
+        title: this.props.article.title
+      });
+      popularArticleList.push({title: this.props.article.title, count: existingArticle.count + 1, article: this.props.article});
+    } else {
+      popularArticleList.push({title: this.props.article.title, count: 1, article: this.props.article});
+    }
+
+    if (popularArticleList.length > 10) {
+      popularArticleList.shift();
+    }
 
     // set history for previously clicked articles
     let previousArticleList = JSON.parse(localStorage.getItem('previousArticles')) || []
-    if(previousArticleList.length > 0){
-      if(!(_.find(previousArticleList, {title: this.props.article.title}))){
-        previousArticleList.push(this.props.article);
-        if (previousArticleList.length > 10) {
-          previousArticleList.shift();
-        }
-      }
-    } else {
+    if(!(_.find(previousArticleList, {title: this.props.article.title}))){
       previousArticleList.push(this.props.article);
     }
+
+    if (previousArticleList.length > 10) {
+      previousArticleList.shift();
+    }
+
+
     localStorage.setItem('previousArticles', JSON.stringify(previousArticleList))
+    localStorage.setItem('popularArticles', JSON.stringify(_.orderBy(popularArticleList, 'count', 'desc')))
+    this.props.reRenderHome();
   };
 
   toggleModal = (e) => {

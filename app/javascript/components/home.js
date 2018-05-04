@@ -1,6 +1,7 @@
 import React from 'react';
 import _ from 'lodash';
 import Article from './Article.js';
+import MiniArticle from './MiniArticle.js'
 
 class Home extends React.Component {
 
@@ -9,7 +10,11 @@ class Home extends React.Component {
       this.state = {
         allArticlesDisplay: undefined
       };
-   }
+  }
+
+  reRender = () => {
+    this.forceUpdate();
+  }
 
   renderPopularTags = () => {
     return (
@@ -25,12 +30,23 @@ class Home extends React.Component {
     )
   }
 
-  renderTopArticles = (type) => {
+  renderPopularArticles = () => {
+    let popularArticleList = localStorage.getItem('popularArticles') || '[]'
     return (
-      <div className={`top-articles ${type}`}>
-        <span className="top-articles__label">{type.charAt(0).toUpperCase()+type.substr(1)} Articles</span>
+      <div className={`top-articles popular`}>
+        <span className="top-articles__label">Popular Articles</span>
         <div className="top-articles__list">
-          {this.renderMiniArticles(type)}
+          {
+            JSON.parse(popularArticleList).map((article, i)=>{
+              return (
+                <MiniArticle
+                  key={i}
+                  article={article}
+                  customClass={i == 0 ? 'first' : ''}
+                />
+              )
+            })
+          }
         </div>
       </div>
     )
@@ -63,6 +79,7 @@ class Home extends React.Component {
             article={article}
             toggleModal={this.toggleModal}
             allArticlesDisplay={this.state.allArticlesDisplay}
+            reRenderHome={this.reRender}
           />
         )
       })
@@ -93,8 +110,7 @@ class Home extends React.Component {
           {/*{this.renderPopularTags()}*/}
 
           <div className="top-articles__wrapper">
-            {this.renderTopArticles('favorite')}
-            {this.renderTopArticles('popular')}
+            {this.renderPopularArticles()}
           </div>
         </div>
 
