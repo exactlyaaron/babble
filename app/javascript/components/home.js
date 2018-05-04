@@ -8,7 +8,8 @@ class Home extends React.Component {
   constructor(props) {
       super(props);
       this.state = {
-        allArticlesDisplay: undefined
+        allArticlesDisplay: undefined,
+        displayHeaderControls: false
       };
   }
 
@@ -94,14 +95,29 @@ class Home extends React.Component {
     this.setState({allArticlesDisplay: 'closed'})
   }
 
+  toggleHeaderControls = () => {
+    this.setState({displayHeaderControls: !this.state.displayHeaderControls})
+  }
+
+  removeLocalStorageItem = (keyName) => {
+    localStorage.removeItem(keyName);
+    this.reRender();
+  }
+
   render() {
     return (
       <div>
         <div className="top-area__wrapper">
           <div className="header__wrapper">
             <div className="logo"></div>
-            <div className="header__controls">
-              <a data-method="delete" href="/users/sign_out" rel="nofollow">SIGN OUT</a>
+            <div className="header__controls__wrapper">
+              <div className={"header__controls__toggle "+(this.state.displayHeaderControls ? 'opened' : '')} onClick={this.toggleHeaderControls}></div>
+              <div className={"header__controls__panel "+(this.state.displayHeaderControls ? 'show' : '') }>
+                <span className="header__controls__button" onClick={()=>{this.removeLocalStorageItem('previousArticles')}}>Clear Previous Articles</span>
+                <span className="header__controls__button" onClick={()=>{this.removeLocalStorageItem('popularArticles')}}>Reset Popular Articles</span>
+                <span className="header__controls__button">Save Browser History</span>
+                <a className="header__controls__button" data-method="delete" href="/users/sign_out" rel="nofollow">Sign Out</a>
+              </div>
             </div>
           </div>
           <div className="search__wrapper">
