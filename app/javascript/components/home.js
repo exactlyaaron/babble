@@ -9,7 +9,10 @@ class Home extends React.Component {
       super(props);
       this.state = {
         allArticlesDisplay: undefined,
-        displayHeaderControls: false
+        displayHeaderControls: false,
+        searchText: '',
+        searchArticleList: [],
+        searchType: 'title'
       };
   }
 
@@ -55,26 +58,6 @@ class Home extends React.Component {
     )
   }
 
-  // renderMiniArticles = (type) => {
-  //   if(type == 'favorite'){
-  //     let articles = _.filter(this.props.data.articles, function(obj) { return obj[type] == true; });
-  //     return (
-  //       <div>
-  //         {articles.map((article, i) => {
-  //           return (
-  //             <MiniArticle
-  //               key={i}
-  //               article={article}
-  //               copyContent={article.contents && article.contents[0]}
-  //               reRenderHome={this.reRender}
-  //             />
-  //           )
-  //         })}
-  //       </div>
-  //     )
-  //   }
-  // }
-
   renderMainArticles = (articles) => {
     return (
       articles.map((article, i) => {
@@ -108,6 +91,95 @@ class Home extends React.Component {
     this.reRender();
   }
 
+  onSearchChange = (e) => {
+    if(this.state.searchText != e.target.value){
+      this.setState({searchText: e.target.value})
+    }
+  }
+
+  renderTopAreaContent = () => {
+    if(this.state.searchText == ''){
+      return (
+        <div>
+          <div className="top-articles__wrapper">
+            {this.renderPopularArticles()}
+          </div>
+        </div>
+      )
+    } else {
+      let titleResults = _.filter(this.props.data.articles, (o) => {
+        if (o.title.toLowerCase().includes(this.state.searchText.toLowerCase())) {
+          return o;
+        }
+      }) || [];
+      let tagsResults = _.filter(this.props.data.articles, (o) => {
+        if (o.tags.join().toLowerCase().includes(this.state.searchText.toLowerCase())) {
+          return o;
+        }
+      }) || [];
+      let contentsResults = _.filter(this.props.data.articles, (o) => {
+        if (o.contents.join().toLowerCase().includes(this.state.searchText.toLowerCase())) {
+          return o;
+        }
+      }) || [];
+      let searchArticleList = [];
+      if(this.state.searchType != ''){
+        let results;
+        switch (this.state.searchType) {
+          case 'title':
+            results = titleResults;
+            break;
+          case 'tags':
+            results = tagsResults;
+            break;
+          case 'contents':
+            results = contentsResults;
+            break;
+          default:
+            alert('bad search type in state dangit')
+        }
+        searchArticleList = _.uniq(results)
+      } else {
+        searchArticleList = _.uniq([...titleResults, ...tagsResults, ...contentsResults])
+      }
+      return (
+        <div>
+          {this.renderSearchResults(searchArticleList)}
+        </div>
+      )
+    }
+  }
+
+  renderSearchResults = (list) => {
+    if(list.length > 0){
+      return (
+        <div>
+          <p className="search-results__label">Search Results:</p>
+          <div className="search-results__buttons">
+            <span className={"search-results__button "+(this.state.searchType == '' ? 'filter-button-active' : '')} onClick={()=>{this.filterSearchResults('')}}>All Results</span>
+            <span className={"search-results__button "+(this.state.searchType == 'title' ? 'filter-button-active' : '')} onClick={()=>{this.filterSearchResults('title')}}>By Title</span>
+            <span className={"search-results__button "+(this.state.searchType == 'tags' ? 'filter-button-active' : '')} onClick={()=>{this.filterSearchResults('tags')}}>By Tags</span>
+            <span className={"search-results__button "+(this.state.searchType == 'contents' ? 'filter-button-active' : '')} onClick={()=>{this.filterSearchResults('contents')}}>By Content</span>
+          </div>
+          {this.renderMainArticles(list)}
+        </div>
+      )
+    } else {
+      return (
+        <p className="search-results__label">'No Results Foo'</p>
+      )
+    }
+  }
+
+  clearSearch = () => {
+    this.setState({searchText: ''});
+    this.inputTextArea.value = "";
+  }
+
+  filterSearchResults = (type) => {
+    this.setState({searchType: type})
+  }
+
   render() {
     return (
       <div>
@@ -124,13 +196,17 @@ class Home extends React.Component {
               </div>
             </div>
           </div>
-          <div className="search__wrapper">
-            <input type="text" placeholder="What do you want" />
-          </div>
-          {/*{this.renderPopularTags()}*/}
-
-          <div className="top-articles__wrapper">
-            {this.renderPopularArticles()}
+          <div className="top-area__content">
+            <div className="search__wrapper">
+              <input
+                type="text"
+                placeholder="What do you want"
+                onChange={(e)=>{this.onSearchChange(e)}}
+                ref={el => this.inputTextArea = el}
+              />
+            <div className={"search__icon "+(this.state.searchText == '' ? '' : 'search-active')} onClick={this.clearSearch}></div>
+            </div>
+            {this.renderTopAreaContent()}
           </div>
         </div>
 

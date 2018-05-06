@@ -93,6 +93,7 @@ table {
 .header__controls__panel {
 	display: none;
 	position: absolute;
+	z-index: 5;
 	top: 35px;
 	right: 5px;
 	background: #fff;
@@ -146,6 +147,7 @@ table {
 .search__wrapper {
   margin: 30px auto;
 	max-width: 800px;
+	position: relative;
 }
 
 .search__wrapper input {
@@ -154,14 +156,59 @@ table {
   width: 100%;
   padding: 15px;
   color: #555;
-  background-image: url(icon_search.svg);
-  background-size: 18px;
-  background-repeat: no-repeat;
-  background-position: calc(100% - 15px) center;
 
   &:focus {
     outline: 2px solid $orange;
   }
+}
+
+.search__icon {
+	width: 20px;
+	height: 20px;
+	position: absolute;
+	top: 11px;
+	right: 15px;
+	background-image: url(icon_search.svg);
+  background-size: 18px;
+  background-repeat: no-repeat;
+  background-position: center;
+
+	&.search-active {
+		background-image: url(icon_close_gray.svg);
+	}
+
+	&:hover {
+		cursor: pointer;
+	}
+}
+
+.search-results__label {
+	color: #fff;
+	margin-bottom: 10px;
+}
+
+.search-results__buttons {
+	margin-bottom: 15px;
+}
+
+.search-results__button {
+	display: inline-block;
+	padding: 10px 20px;
+	color: #fff;
+	border-radius: 3px;
+	font-size: 11px;
+	line-height: 11px;
+	margin-right: 5px;
+	border: 1px solid #fff;
+
+	&.filter-button-active {
+		background: $orange;
+		border: 1px solid $orange;
+	}
+
+	&:hover {
+		cursor: pointer;
+	}
 }
 
 .popular-tags__label, .top-articles__label {
