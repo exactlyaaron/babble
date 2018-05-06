@@ -63,6 +63,11 @@ class Article extends React.Component {
     })
   }
 
+  onTagClick = (tag) => {
+    this.props.clearSearch();
+    this.props.setActiveTag(tag);
+  }
+
   renderArticleContent = (displayOverride=undefined, modal=undefined) => {
     let displayClass = displayOverride ? displayOverride : this.state.display;
     return (
@@ -95,7 +100,7 @@ class Article extends React.Component {
           <div className="article__tags__wrapper tags__list">
             {this.props.article.tags && this.props.article.tags.map((tag, k) => {
               return(
-                <span className="tag" key={'tag-'+k}><span>{tag}</span></span>
+                <span className="tag" key={'tag-'+k} onClick={()=>{this.onTagClick(tag)}}><span>{tag}</span></span>
               )
             })}
           </div>

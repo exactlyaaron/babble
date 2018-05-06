@@ -12,7 +12,8 @@ class Home extends React.Component {
         displayHeaderControls: false,
         searchText: '',
         searchArticleList: [],
-        searchType: 'title'
+        searchType: 'title',
+        activeTag: ''
       };
   }
 
@@ -58,7 +59,7 @@ class Home extends React.Component {
     )
   }
 
-  renderMainArticles = (articles) => {
+  renderArticleList = (articles) => {
     return (
       articles.map((article, i) => {
         return (
@@ -68,6 +69,8 @@ class Home extends React.Component {
             toggleModal={this.toggleModal}
             allArticlesDisplay={this.state.allArticlesDisplay}
             reRenderHome={this.reRender}
+            clearSearch={this.clearSearch}
+            setActiveTag={this.setActiveTag}
           />
         )
       })
@@ -161,7 +164,7 @@ class Home extends React.Component {
             <span className={"search-results__button "+(this.state.searchType == 'tags' ? 'filter-button-active' : '')} onClick={()=>{this.filterSearchResults('tags')}}>By Tags</span>
             <span className={"search-results__button "+(this.state.searchType == 'contents' ? 'filter-button-active' : '')} onClick={()=>{this.filterSearchResults('contents')}}>By Content</span>
           </div>
-          {this.renderMainArticles(list)}
+          {this.renderArticleList(list)}
         </div>
       )
     } else {
@@ -178,6 +181,45 @@ class Home extends React.Component {
 
   filterSearchResults = (type) => {
     this.setState({searchType: type})
+  }
+
+  renderTagHeadline = () => {
+    if(this.state.activeTag != ''){
+      return (
+        <div className="active-tag__wrapper">
+          <span className="active-tag__label">ACTIVE TAG: </span>
+          <span className="active-tag__name">{this.state.activeTag}</span>
+          <span className="active-tag__clear" onClick={()=>{this.setActiveTag('')}}>Clear</span>
+        </div>
+      )
+    } else {
+      return null;
+    }
+  }
+
+  setActiveTag = (tag) => {
+    this.setState({activeTag: tag})
+  }
+
+  renderMainArticles = () => {
+    if(this.state.activeTag != ''){
+      let tagsResults = _.filter(this.props.data.articles, (o) => {
+        if (o.tags.includes(this.state.activeTag)) {
+          return o;
+        }
+      }) || [];
+      return (
+        <div>
+          {this.renderArticleList(tagsResults)}
+        </div>
+      )
+    } else {
+      return (
+        <div>
+          {this.renderArticleList(this.props.data && this.props.data.articles)}
+        </div>
+      )
+    }
   }
 
   render() {
@@ -214,9 +256,10 @@ class Home extends React.Component {
           <div className="main-articles__controls">
             <span className="main-articles__control" onClick={this.expandAllArticles}>Expand All</span>
             <span className="main-articles__control" onClick={this.collapseAllArticles}>Collapse All</span>
+            {this.renderTagHeadline()}
           </div>
 
-          {this.renderMainArticles(this.props.data && this.props.data.articles)}
+          {this.renderMainArticles()}
 
         </div>
         <p>Hello, I am {this.props.name}!</p>
