@@ -27,11 +27,6 @@ class Article extends React.Component {
   }
 
   toggleModal = (e) => {
-    this.setState({expanded: !this.state.expanded})
-    this.props.toggleModal(e, this.props.article)
-  }
-
-  toggleModal = (e) => {
     e.preventDefault();
     this.setState({expanded: !this.state.expanded, displayModal: !this.state.displayModal})
   }
@@ -63,9 +58,10 @@ class Article extends React.Component {
     })
   }
 
-  onTagClick = (tag) => {
+  onTagClick = (e, tag) => {
     this.props.clearSearch();
     this.props.setActiveTag(tag);
+    this.toggleModal(e);
   }
 
   renderArticleContent = (displayOverride=undefined, modal=undefined) => {
@@ -100,7 +96,7 @@ class Article extends React.Component {
           <div className="article__tags__wrapper tags__list">
             {this.props.article.tags && this.props.article.tags.map((tag, k) => {
               return(
-                <span className="tag" key={'tag-'+k} onClick={()=>{this.onTagClick(tag)}}><span>{tag}</span></span>
+                <span className="tag" key={'tag-'+k} onClick={(e)=>{this.onTagClick(e, tag)}}><span>{tag}</span></span>
               )
             })}
           </div>
