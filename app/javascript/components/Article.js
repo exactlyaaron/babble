@@ -2,6 +2,7 @@ import React from 'react';
 import {CopyToClipboard} from 'react-copy-to-clipboard';
 import _ from 'lodash';
 import MiniArticle from './MiniArticle.js'
+import CopyButton from './CopyButton.js'
 
 class Article extends React.Component {
   constructor(props) {
@@ -24,41 +25,6 @@ class Article extends React.Component {
   toggleArticle = () => {
     this.setState({display: this.state.display == 'closed' ? 'opened' : 'closed'})
   }
-
-  onCopy = () => {
-    this.setState({copied: true});
-    // set counter for popularity
-    let popularArticleList = JSON.parse(localStorage.getItem('popularArticles')) || []
-
-    if(_.find(popularArticleList, {title: this.props.article.title})){
-      let existingArticle = _.find(popularArticleList, {title: this.props.article.title});
-      _.remove(popularArticleList, {
-        title: this.props.article.title
-      });
-      popularArticleList.push({title: this.props.article.title, count: existingArticle.count + 1, article: this.props.article});
-    } else {
-      popularArticleList.push({title: this.props.article.title, count: 1, article: this.props.article});
-    }
-
-    if (popularArticleList.length > 10) {
-      popularArticleList.shift();
-    }
-
-    // set history for previously clicked articles
-    let previousArticleList = JSON.parse(localStorage.getItem('previousArticles')) || []
-    if(!(_.find(previousArticleList, {title: this.props.article.title}))){
-      previousArticleList.push(this.props.article);
-    }
-
-    if (previousArticleList.length > 10) {
-      previousArticleList.shift();
-    }
-
-
-    localStorage.setItem('previousArticles', JSON.stringify(previousArticleList))
-    localStorage.setItem('popularArticles', JSON.stringify(_.orderBy(popularArticleList, 'count', 'desc')))
-    this.props.reRenderHome();
-  };
 
   toggleModal = (e) => {
     this.setState({expanded: !this.state.expanded})
@@ -90,6 +56,8 @@ class Article extends React.Component {
           key={i}
           article={article}
           customClass={i == 0 ? 'first' : ''}
+          copyContent={article.contents && article.contents[0]}
+          reRenderHome={this.props.reRenderHome}
         />
       )
     })
@@ -100,11 +68,10 @@ class Article extends React.Component {
     return (
       <div className={"article__wrapper "+(displayClass)} onClick={this.articleClick}>
         <div className="article__controls">
-          <CopyToClipboard
-            onCopy={this.onCopy}
-            text={this.props.article.contents && this.props.article.contents[0]}>
-            <div onClick={this.onClick} className="button__copy"></div>
-          </CopyToClipboard>
+          <CopyButton
+            {...this.props}
+            content={this.props.article.contents[0]}
+          />
           <div className={"button__toggle-view "+(this.state.expanded ? "collapse":"expand")} onClick={(e) =>{this.toggleModal(e)}}></div>
           {!modal &&
             <div className="button__toggle-view open" onClick={this.toggleArticle}></div>
@@ -116,11 +83,10 @@ class Article extends React.Component {
             {this.props.article.contents && this.props.article.contents.map((content, j) => {
               return(
                 <div key={'content-'+j} className="article__content">
-                  <CopyToClipboard
-                    onCopy={this.onCopy}
-                    text={content}>
-                    <div onClick={this.onClick} className="button__copy"></div>
-                  </CopyToClipboard>
+                  <CopyButton
+                    {...this.props}
+                    content={content}
+                  />
                   <div className="article-content__text">{content}</div>
                 </div>
               )
@@ -136,12 +102,7 @@ class Article extends React.Component {
           <div className="article__related-and-previous__wrapper">
             <div className="article__minilist__wrapper">
               <div className="article__minilist__title">Related Articles:</div>
-              <MiniArticle key={1} article={this.props.article} customClass="first"/>
-              <MiniArticle key={2} article={this.props.article}/>
-              <MiniArticle key={3} article={this.props.article}/>
-              <MiniArticle key={4} article={this.props.article}/>
-              <MiniArticle key={5} article={this.props.article}/>
-              <MiniArticle key={6} article={this.props.article}/>
+              {/*stuff here*/}
             </div>
             <div className="article__minilist__wrapper">
               <div className="article__minilist__title">Previous Articles:</div>

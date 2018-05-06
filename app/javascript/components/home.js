@@ -44,6 +44,8 @@ class Home extends React.Component {
                   key={i}
                   article={article}
                   customClass={i == 0 ? 'first' : ''}
+                  reRenderHome={this.reRender}
+                  copyContent={article.article && article.article.contents && article.article.contents[0]}
                 />
               )
             })
@@ -53,23 +55,25 @@ class Home extends React.Component {
     )
   }
 
-  renderMiniArticles = (type) => {
-    if(type == 'favorite'){
-      let articles = _.filter(this.props.data.articles, function(obj) { return obj[type] == true; });
-      return (
-        <div>
-          {articles.map((article, i) => {
-            return (
-              <MiniArticle
-                key={i}
-                article={article}
-              />
-            )
-          })}
-        </div>
-      )
-    }
-  }
+  // renderMiniArticles = (type) => {
+  //   if(type == 'favorite'){
+  //     let articles = _.filter(this.props.data.articles, function(obj) { return obj[type] == true; });
+  //     return (
+  //       <div>
+  //         {articles.map((article, i) => {
+  //           return (
+  //             <MiniArticle
+  //               key={i}
+  //               article={article}
+  //               copyContent={article.contents && article.contents[0]}
+  //               reRenderHome={this.reRender}
+  //             />
+  //           )
+  //         })}
+  //       </div>
+  //     )
+  //   }
+  // }
 
   renderMainArticles = (articles) => {
     return (
