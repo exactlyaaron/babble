@@ -71,6 +71,7 @@ class Home extends React.Component {
             reRenderHome={this.reRender}
             clearSearch={this.clearSearch}
             setActiveTag={this.setActiveTag}
+            allArticles={this.props.data.articles}
           />
         )
       })

@@ -64,6 +64,52 @@ class Article extends React.Component {
     this.toggleModal(e);
   }
 
+  renderRelatedArticles = () => {
+    // loop over tags
+    // find articles with each tag
+    // count occurences of each
+    // sort by count
+    // render mini articles
+    let relatedArticleList = [];
+    let tagResultList = this.props.article.tags.map((tag)=>{
+      return _.filter(this.props.allArticles, (o) => {
+        if ((this.props.article.title != o.title) && o.tags.includes(tag)) {
+          return o;
+        }
+      }) || [];
+    });
+
+    let countRelated = this.arrayByFreq(_.flatten(tagResultList));
+    return countRelated.map((article, i)=>{
+      return (
+        <MiniArticle
+          key={i}
+          article={article.obj}
+          customClass={i == 0 ? 'first' : ''}
+          copyContent={article.obj.contents && article.obj.contents[0]}
+          reRenderHome={this.props.reRenderHome}
+        />
+      )
+    });
+  }
+
+  arrayByFreq = (array) => {
+    let countz = []
+    _.uniq(array).map((article)=>{
+      var numberOfTitle = 0;
+      for(var i = 0; i < array.length; i++){
+        if(array[i].title == article.title){
+          numberOfTitle++;
+        }
+      }
+      countz.push({
+        occ: numberOfTitle,
+        obj: article
+      })
+    });
+    return _.filter(countz, 'occ', 'desc');
+  };
+
   renderArticleContent = (displayOverride=undefined, modal=undefined) => {
     let displayClass = displayOverride ? displayOverride : this.state.display;
     return (
@@ -103,7 +149,7 @@ class Article extends React.Component {
           <div className="article__related-and-previous__wrapper">
             <div className="article__minilist__wrapper">
               <div className="article__minilist__title">Related Articles:</div>
-              {/*stuff here*/}
+              {this.renderRelatedArticles()}
             </div>
             <div className="article__minilist__wrapper">
               <div className="article__minilist__title">Previous Articles:</div>

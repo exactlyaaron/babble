@@ -9,6 +9,7 @@ articles:
       - adult content
       - security
       - privacy
+      - warranty
 
   - title: Repair Cost
     contents:
@@ -17,6 +18,7 @@ articles:
       - repair cost
       - technician
       - warranty
+      - privacy
 
   - title: Add Hotspot Data
     contents:
@@ -32,6 +34,7 @@ articles:
       - hotspot
       - service
       - data
+      - warranty
 
   - title: Block a Number
     contents:
@@ -42,3 +45,4 @@ articles:
       - block number
       - account
       - sprint
+      - data
