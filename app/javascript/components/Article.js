@@ -12,7 +12,8 @@ class Article extends React.Component {
         value: 'i am a test',
         copied: false,
         expanded: this.props.expanded || false,
-        displayModal: false
+        displayModal: false,
+        displayModalArticle: this.props.article
     }
   }
 
@@ -36,7 +37,7 @@ class Article extends React.Component {
       return (
         <div className="article-modal__wrapper" onClick={this.toggleModal}>
           <div className="article-modal__close" onClick={this.toggleModal}></div>
-            {this.renderArticleContent('opened', true)}
+            {this.renderArticleContent('opened', true, this.state.displayModalArticle)}
         </div>
       )
     }
@@ -71,9 +72,13 @@ class Article extends React.Component {
     // sort by count
     // render mini articles
     let relatedArticleList = [];
-    let tagResultList = this.props.article.tags.map((tag)=>{
+    let baseArticle = this.props.article;
+    if(this.state.displayModal){
+      baseArticle = this.state.displayModalArticle;
+    }
+    let tagResultList = baseArticle.tags.map((tag)=>{
       return _.filter(this.props.allArticles, (o) => {
-        if ((this.props.article.title != o.title) && o.tags.includes(tag)) {
+        if ((baseArticle.title != o.title) && o.tags.includes(tag)) {
           return o;
         }
       }) || [];
@@ -88,6 +93,7 @@ class Article extends React.Component {
           customClass={i == 0 ? 'first' : ''}
           copyContent={article.obj.contents && article.obj.contents[0]}
           reRenderHome={this.props.reRenderHome}
+          showArticle={this.showRelatedArticle}
         />
       )
     });
@@ -110,24 +116,24 @@ class Article extends React.Component {
     return _.filter(countz, 'occ', 'desc');
   };
 
-  renderArticleContent = (displayOverride=undefined, modal=undefined) => {
+  renderArticleContent = (displayOverride=undefined, modal=undefined, article=undefined) => {
     let displayClass = displayOverride ? displayOverride : this.state.display;
     return (
       <div className={"article__wrapper "+(displayClass)} onClick={this.articleClick}>
         <div className="article__controls">
           <CopyButton
             {...this.props}
-            content={this.props.article.contents[0]}
+            content={article.contents[0]}
           />
           <div className={"button__toggle-view "+(this.state.expanded ? "collapse":"expand")} onClick={(e) =>{this.toggleModal(e)}}></div>
           {!modal &&
             <div className="button__toggle-view open" onClick={this.toggleArticle}></div>
           }
-          <span className="article-title">{this.props.article.title}</span>
+          <span className="article-title">{article.title}</span>
         </div>
         <div className="article__contents__wrapper">
           <div className="article__contents__items">
-            {this.props.article.contents && this.props.article.contents.map((content, j) => {
+            {article.contents && article.contents.map((content, j) => {
               return(
                 <div key={'content-'+j} className="article__content">
                   <CopyButton
@@ -140,7 +146,7 @@ class Article extends React.Component {
             })}
           </div>
           <div className="article__tags__wrapper tags__list">
-            {this.props.article.tags && this.props.article.tags.map((tag, k) => {
+            {article.tags && article.tags.map((tag, k) => {
               return(
                 <span className="tag" key={'tag-'+k} onClick={(e)=>{this.onTagClick(e, tag)}}><span>{tag}</span></span>
               )
@@ -165,10 +171,14 @@ class Article extends React.Component {
     e.stopPropagation();
   }
 
+  showRelatedArticle = (article) => {
+    this.setState({displayModalArticle: article, displayModal: true})
+  }
+
   render() {
     return (
       <div>
-        {this.renderArticleContent()}
+        {this.renderArticleContent(undefined, undefined, this.props.article)}
         {this.renderArticleModal()}
       </div>
     )

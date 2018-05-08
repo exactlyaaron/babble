@@ -10,8 +10,8 @@ class MiniArticle extends React.Component {
           {...this.props}
           content={this.props.copyContent || (this.props.article.contents && this.props.article.contents[0])}
         />
-        <div className="button__toggle-view expand"></div>
-        <span className="article-title">{this.props.article.title}</span>
+      <div className="button__toggle-view expand" onClick={()=>{this.props.showArticle(this.props.article)}}></div>
+        <span className="article-title" onClick={()=>{this.props.showArticle(this.props.article)}}>{this.props.article.title}</span>
       </div>
     )
   }
