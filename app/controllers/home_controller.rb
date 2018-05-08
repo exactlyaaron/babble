@@ -20,9 +20,13 @@ class HomeController < ApplicationController
 
     files = drive.list_files
     files_data = JSON.parse(files.to_json)
+    filename = 'babble-data.yml'
+    if current_user.email != 'thecodyhoosier@gmail.com'
+      filename = 'babble-data-demo.yml'
+    end
     data_file_id = nil
     files_data['files'].each do |f|
-      if f['name'] == 'babble-data.yml'
+      if f['name'] == filename
         data_file_id = f['id']
       end
     end
