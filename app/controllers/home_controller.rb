@@ -20,6 +20,16 @@ class HomeController < ApplicationController
     drive.drive_service.get_file(data_file_id, download_dest: 'tmp/babble-data.yml')
     @data = YAML.load_file('tmp/babble-data.yml')
 
-    render react_component: 'Home', props: { name: 'a component rendered from a controller', data: JSON.parse(@data.to_json) }
+    render react_component: 'Home', props: { name: 'a component rendered from a controller', data: JSON.parse(@data.to_json), user: current_user }
+  end
+
+  def save
+    history = params['historyObj'].to_json
+
+    drive = GoogleDrive.new
+
+    # write file with history and post to drive
+
+    render json: {}.to_json
   end
 end

@@ -223,6 +223,31 @@ class Home extends React.Component {
     }
   }
 
+  saveHistory = () => {
+    let historyObj = {
+      previousArticles: localStorage.getItem('previousArticles') || '[]',
+      popularArticles: localStorage.getItem('popularArticles') || '[]'
+    }
+    fetch('/save_history', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'X-CSRF-Token': this.getCSRFToken(),
+      },
+      credentials: 'same-origin',
+      body: JSON.stringify({
+        historyObj: historyObj
+      })
+    })
+  }
+
+  getCSRFToken() {
+    return _.find(document.getElementsByTagName('meta'), (meta) => {
+      return meta.name === 'csrf-token'
+    }).content
+  }
+
   render() {
     return (
       <div>
@@ -234,7 +259,7 @@ class Home extends React.Component {
               <div className={"header__controls__panel "+(this.state.displayHeaderControls ? 'show' : '') }>
                 <span className="header__controls__button" onClick={()=>{this.removeLocalStorageItem('previousArticles')}}>Clear Previous Articles</span>
                 <span className="header__controls__button" onClick={()=>{this.removeLocalStorageItem('popularArticles')}}>Reset Popular Articles</span>
-                <span className="header__controls__button">Save Browser History</span>
+                <span className="header__controls__button" onClick={this.saveHistory}>Save Browser History</span>
                 <a className="header__controls__button" data-method="delete" href="/users/sign_out" rel="nofollow">Sign Out</a>
               </div>
             </div>
