@@ -19,4 +19,19 @@ class GoogleDrive
 
     @drive_service = drive
   end
+
+  def download_file(filename, dest)
+    files = self.drive_service.list_files
+    files_data = JSON.parse(files.to_json)
+
+    data_file_id = nil
+    files_data['files'].each do |f|
+      if f['name'] == filename
+        data_file_id = f['id']
+      end
+    end
+
+    self.drive_service.get_file(data_file_id, download_dest: dest)
+
+  end
 end

@@ -17,6 +17,13 @@ class Home extends React.Component {
       };
   }
 
+  componentWillMount(){
+    if(this.props.history && this.props.history.popularArticles && this.props.history.previousArticles){
+      localStorage.setItem('popularArticles', this.props.history.popularArticles)
+      localStorage.setItem('previousArticles', this.props.history.previousArticles)
+    }
+  }
+
   reRender = () => {
     this.forceUpdate();
   }
