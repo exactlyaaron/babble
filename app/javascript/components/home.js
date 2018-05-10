@@ -295,7 +295,6 @@ class Home extends React.Component {
           {this.renderMainArticles()}
 
         </div>
-        <p>Hello, I am {this.props.name}!</p>
       </div>
     )
   }
