@@ -73,14 +73,14 @@ table {
 	display: block;
 	height: 25px;
 	width: 25px;
-	background-image: url(icon_gear.svg);
+	background-image: asset_path(icon_gear.svg);
 	background-position: center;
 	background-size: 100%;
 	background-repeat: no-repeat;
 	transition: transform 0.3s ease;
 
 	&.opened {
-		background-image: url(icon_close_white.svg);
+		background-image: asset_path(icon_close_white.svg);
 		background-size: 18px;
 	}
 
@@ -135,7 +135,7 @@ table {
 }
 
 .logo {
-  background-image: url(babble-logo.svg);
+  background-image: asset_path(babble-logo.svg);
   background-size: 100%;
   background-position: center;
   background-repeat: no-repeat;
@@ -168,13 +168,13 @@ table {
 	position: absolute;
 	top: 11px;
 	right: 15px;
-	background-image: url(icon_search.svg);
+	background-image: asset_path(icon_search.svg);
   background-size: 18px;
   background-repeat: no-repeat;
   background-position: center;
 
 	&.search-active {
-		background-image: url(icon_close_gray.svg);
+		background-image: asset_path(icon_close_gray.svg);
 	}
 
 	&:hover {
@@ -467,7 +467,7 @@ table {
   display: block;
   float: left;
   background-color: $orange;
-  background-image: url(icon_copy.svg);
+  background-image: asset_path(icon_copy.svg);
   background-position: center;
   background-repeat: no-repeat;
   padding: 5px;
@@ -506,12 +506,12 @@ table {
   }
 
   .closed & {
-    background-image: url(icon_caret.svg);
+    background-image: asset_path(icon_caret.svg);
   }
 
 	&.open {
 		.opened & {
-			background-image: url(icon_caret.svg);
+			background-image: asset_path(icon_caret.svg);
 			transform: rotate(180deg);
 			border-left: 0px solid #ddd;
 			border-right: 1px solid #ddd;
@@ -519,11 +519,11 @@ table {
 	}
 
   &.expand {
-    background-image: url(icon_expand.svg);
+    background-image: asset_path(icon_expand.svg);
   }
 
   &.collapse {
-    background-image: url(icon_collapse.svg);
+    background-image: asset_path(icon_collapse.svg);
   }
 
   .mini & {
@@ -604,7 +604,7 @@ table {
   right: 15px;
   width: 20px;
   height: 20px;
-  background-image: url(icon_close_white.svg);
+  background-image: asset_path(icon_close_white.svg);
   background-position: center;
   background-size: 100%;
   background-repeat: no-repeat;
