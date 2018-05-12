@@ -31,7 +31,8 @@ class GoogleDrive
       end
     end
 
-    self.drive_service.get_file(data_file_id, download_dest: dest)
-
+    if data_file_id
+      self.drive_service.get_file(data_file_id, download_dest: dest)
+    end
   end
 end

@@ -16,6 +16,10 @@ class HomeController < ApplicationController
 
     @history_data = File.read('tmp/babble-history.json')
 
+    if @history_data.size == 0
+      @history_data = '{}'
+    end
+
     render react_component: 'Home', props: { name: 'a component rendered from a controller', data: JSON.parse(@data.to_json), user: current_user, history: JSON.parse(@history_data) }
   end
 
