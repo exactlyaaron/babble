@@ -14,7 +14,10 @@ class HomeController < ApplicationController
     history_filename = 'babble-history.json'
     drive.download_file(history_filename, 'tmp/babble-history.json')
 
-    @history_data = File.read('tmp/babble-history.json')
+    @history_data = ''
+    if FileTest.exist? 'tmp/babble-history.json'
+      @history_data = File.read('tmp/babble-history.json')
+    end
 
     if @history_data.size == 0
       @history_data = '{}'
